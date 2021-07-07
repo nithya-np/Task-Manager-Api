@@ -3,7 +3,7 @@ const multer=require("multer")
 const sharp=require("sharp")
 const users=require("../models/users.js")
 const auth=require("../middleware/authentication")
-const { sendWelcomeEmail, sendCancelationEmail }=require("../emails/account")
+// const { sendWelcomeEmail, sendCancelationEmail }=require("../emails/account")
 const userRouter=new express.Router()
 
 // route for signing up
@@ -12,7 +12,7 @@ userRouter.post("/users", async(req,res)=>{
     
     try{
         await user.save()
-        sendWelcomeEmail(user.email, user.name)
+        // sendWelcomeEmail(user.email, user.name)
         const token=await user.generateAuthToken()
         res.status(201).send({user,token})
     }catch(e){
@@ -90,7 +90,7 @@ userRouter.patch("/users/me",auth, async(req,res)=>{
 userRouter.delete("/users/me",auth, async(req,res)=>{
     try{
         await req.user.remove()
-        sendCancelationEmail(req.user.email, req.user.name)
+        // sendCancelationEmail(req.user.email, req.user.name)
         res.send(req.user)
     }catch(e){
         res.status(400).send("Can't delete user!")
